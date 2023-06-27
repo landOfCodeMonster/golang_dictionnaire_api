@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 
-	"dictionary/dictionary"
+	"estiam/dictionary"
 )
 
 func main() {
