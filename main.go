@@ -37,14 +37,21 @@ func main() {
 	// Route pour obtenir la liste des mots et de leurs définitions
 	router.GET("/list", func(c *gin.Context) {
 
+		keys, _ := dico.List()
+		jsonData := []string{}
+		fmt.Println("Mots dans le dictionnaire:%s", keys)
 		err := db.View(func(tx *flashdb.Tx) error {
-			val, err := tx.Get("java")
-			if err != nil {
-				return err
+			for _, key := range keys {
+				fmt.Println("Key :%#v", key)
+				val, err := tx.Get(key)
+				if err != nil {
+					return err
+				}
+				jsonData = append(jsonData, "mot: "+key+" definition: "+val)
+
 			}
 			c.JSON(http.StatusOK, gin.H{
-				"mot":        "java",
-				"définition": val,
+				"": jsonData,
 			})
 			return nil
 		})
@@ -214,7 +221,7 @@ func actionList(d *dictionary.Dictionary) {
 
 	words, entries := d.List()
 
-	fmt.Println("Mots dans le dictionnaire:")
+	fmt.Println("Mots dans le dictionnaire:%s", words)
 
 	for _, word := range words {
 
@@ -225,5 +232,4 @@ func actionList(d *dictionary.Dictionary) {
 		fmt.Println("- Définition:", entry)
 
 	}
-
 }
