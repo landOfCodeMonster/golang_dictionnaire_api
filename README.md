@@ -1,3 +1,3 @@
 # Go Dictionnaire
-# API
-# CLI Command
+## API
+## CLI Command
