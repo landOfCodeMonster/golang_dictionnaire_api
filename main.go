@@ -9,8 +9,6 @@ import (
 	"os"
 	"strings"
 
-	"dictionary/dictionary"
-
 	"github.com/arriqaaq/flashdb"
 	"github.com/gin-gonic/gin"
 )
