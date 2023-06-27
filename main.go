@@ -130,6 +130,30 @@ func main() {
 
 	})
 
+	// Mise a jour un mot
+	router.POST("update/:name", func(c *gin.Context) {
+		word := c.Params.ByName("name")
+		definition := c.PostForm("definition")
+
+		err := db.Update(func(tx *flashdb.Tx) error {
+			tx.Set(word, definition)
+			if err != nil {
+				return err
+			}
+			c.JSON(http.StatusOK, gin.H{
+				"msg": "Mot mis à jour ",
+			})
+			return nil
+		})
+
+		if err != nil {
+			log.Println("Erreur lors de la mise a jour du mot dans flashDB:", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Erreur lors de la mise a jour du mot"})
+			return
+		}
+
+	})
+
 	router.Run()
 }
 
